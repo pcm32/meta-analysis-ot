@@ -47,6 +47,8 @@ for( accession in microarrays ) {
 
   for( contrast in unlist(strsplit(x=datasets$contrast[datasets$accession==accession], split = ",")) ) {
     
+    cat("Processing ",accession," ",contrast)
+    
     for( expContrast in expContrasts ) {
       # Get the sample sizes for the contrast at hand.
       if( expContrast@contrast_id == contrast ) {
@@ -64,7 +66,19 @@ for( accession in microarrays ) {
     readRDS(paste0(opt$inputdir,"/",accession,"_",contrast,"_fit.rds"))->fit
     
     setkey(annot,DesignElementAccession)
-    as.data.table(topTable(fit, confint=TRUE, number=Inf))->expTTable
+    cols<-colnames(topTable(fit))
+    if( !("logFC" %in% cols) ) {
+    #if( nchar(datasets$coef[datasets$accession==accession])==0 ) {
+    #  if( !("logFC" %in% cols)) {
+    #    cat(accession,":",contrast," has the following coefficients:\n")
+    #    cat(cols[-1])
+    #    cat("add an appropiate one to the coefficient column of datasets and re-run")
+    #  }
+      as.data.table(topTable(fit, confint=TRUE, number=Inf, coef="groupstest"))->expTTable
+    } else {
+      #as.data.table(topTable(fit, confint=TRUE, number=Inf, coef = datasets$coef[datasets$accession==accession]))->expTTable
+      as.data.table(topTable(fit, confint=TRUE, number=Inf))->expTTable
+    }
     expTTable[,variance:=((CI.R-CI.L)/3.92)^2,]
     setkey(expTTable,designElements)
     expTTable$Accession<-accession
