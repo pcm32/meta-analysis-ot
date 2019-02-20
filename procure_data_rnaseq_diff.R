@@ -26,6 +26,7 @@ opt <- parse_args(OptionParser(option_list = option_list))
 rna_seq_diff<-readRDS(paste0(opt$inputdir,"/rna_seq_diff.rds"))
 
 for( accession in rna_seq_diff ) {
+  cat("Getting ",accession,"\n")
   expNormFileName<-paste0(accession,"-raw-counts.tsv")
   fread(input=paste0("ftp://ftp.ebi.ac.uk/pub/databases/microarray/data/atlas/experiments/",accession,"/",expNormFileName))->exprWAnnot
   # skip Gene name on second column

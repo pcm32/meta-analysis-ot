@@ -26,8 +26,9 @@ opt <- parse_args(OptionParser(option_list = option_list))
 microarrays<-readRDS(paste0(opt$inputdir,"/microarray.rds"))
 
 for( accession in microarrays ) {
+  cat("Getting ",accession,"\n")
   strsplit(getURL(paste0("ftp://ftp.ebi.ac.uk/pub/databases/microarray/data/atlas/experiments/",accession,"/"),ftp.use.epsv=TRUE, dirlistonly = TRUE),split = '\n')->listing
-  expNormFileName<-listing[[1]][grep(x=listing[[1]],pattern=".*normalized-expressions.*")]
+  expNormFileName<-listing[[1]][grep(x=listing[[1]],pattern=".*normalized-expressions.tsv$")][[1]]
   
   fread(input=paste0("ftp://ftp.ebi.ac.uk/pub/databases/microarray/data/atlas/experiments/",accession,"/",expNormFileName))->exprWAnnot
   fwrite(exprWAnnot[,3:ncol(exprWAnnot)], file=paste0(opt$outdir,"/",expNormFileName,".undecorated"), sep = "\t")
