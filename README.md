@@ -26,6 +26,7 @@ For each experiment/accession copy the accession and contrasts ids for the desir
 looks like (make sure that columns are named exactly as shown):
 
 | accession | contrast |
+|-----------|----------|
 | E-GEOD-16879 | g13_g1,g14_g2 |
 | E-METAB-2175 | g4_g1 |
 
