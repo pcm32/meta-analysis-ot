@@ -18,12 +18,12 @@ This will provide the list of contrast for that experiment, for instance:
 
 | Accession | C.ID | Size | C. Name |
 |-----------|------|------|---------|
-| E-GEOD-16879 | g13_g1 | 06:07 | 'after first infliximab treatment; no response to infliximab treatment; Crohn's disease' vs 'control' in 'colon' |
-| E-GEOD-16879 | g14_g2 | 06:10 | 'after first infliximab treatment; no response to infliximab treatment; Crohn's disease' vs 'control' in 'ileum' |
-| E-GEOD-16879 | g13_g3 | 06:16 | 'after first infliximab treatment; no response to infliximab treatment; ulcerative colitis' vs 'control' in 'colon' |
+| E-GEOD-16879 | g13_g1 | 6:7 | 'after first infliximab treatment; no response to infliximab treatment; Crohn's disease' vs 'control' in 'colon' |
+| E-GEOD-16879 | g14_g2 | 6:10 | 'after first infliximab treatment; no response to infliximab treatment; Crohn's disease' vs 'control' in 'ileum' |
+| E-GEOD-16879 | g13_g3 | 6:16 | 'after first infliximab treatment; no response to infliximab treatment; ulcerative colitis' vs 'control' in 'colon' |
 
 For each experiment/accession copy the accession and contrasts ids for the desired contrasts, to a tab separated file that 
-looks like (make sure that columns are named exactly as shown):
+looks like (make sure that columns are named exactly as shown, more than one contrast per experiment can be given, separated by commas):
 
 | accession | contrast |
 |-----------|----------|
