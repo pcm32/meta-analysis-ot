@@ -11,6 +11,13 @@ option_list = list(
     default = NA,
     type = 'character',
     help = "Accession to inspect contrasts for."
+  ),
+  make_option(
+    c("-d", "--datasets_file"),
+    action = "store",
+    default = NA,
+    type = 'character',
+    help = "File with accessions in an 'accession' column. Overrides -a"
   )
 )
 
