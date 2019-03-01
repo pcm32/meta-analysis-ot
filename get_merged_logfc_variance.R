@@ -85,9 +85,10 @@ for( accession in microarrays ) {
     expTTable$Contrast<-contrast
     expTTable$refSampleSize<-referenceSamplesSize
     expTTable$testSampleSize<-testSamplesSize
+    expTTable$technology<-"microarray"
     setnames(expTTable, "adj.P.Val", "padj")
     
-    columns<-c('Accession', 'Contrast', 'Gene ID', 'Gene Name', 'logFC', 'variance', 'padj', 'refSampleSize', 'testSampleSize')
+    columns<-c('Accession', 'Contrast', 'Gene ID', 'Gene Name', 'logFC', 'variance', 'padj', 'refSampleSize', 'testSampleSize', 'technology', 'CI.L', 'CI.R')
     results[[paste0(accession,"_",contrast)]]<-expTTable[annot, on=c(designElements="DesignElementAccession")][, columns, with=FALSE]
     summary(results[[paste0(accession,"_",contrast)]])
   }
@@ -128,10 +129,13 @@ for( accession in rna_seq_diff) {
                variance=((deseq2Res@listData$lfcSE)^2*(referenceSamplesSize+testSamplesSize)),
                refSampleSize=referenceSamplesSize,
                testSampleSize=testSamplesSize,
-               padj=deseq2Res@listData$padj
+               padj=deseq2Res@listData$padj,
+               CI.L=deseq2Res@listData$log2FoldChange-(1.96*deseq2Res@listData$lfcSE),
+               CI.R=deseq2Res@listData$log2FoldChange+(1.96*deseq2Res@listData$lfcSE)
                )->expTTable
     setkey(expTTable,`Gene ID`)
-    columns<-c('Accession', 'Contrast', 'Gene ID', 'Gene Name', 'logFC', 'variance', 'padj', 'refSampleSize', 'testSampleSize')
+    expTTable$technology<-"rna-seq"
+    columns<-c('Accession', 'Contrast', 'Gene ID', 'Gene Name', 'logFC', 'variance', 'padj', 'refSampleSize', 'testSampleSize', 'technology', 'CI.L', 'CI.R')
     results[[paste0(accession,"_",contrast)]]<-expTTable[annot, on=c(`Gene ID`="Gene ID")][!is.na(padj), columns, with=FALSE]
     summary(results[[paste0(accession,"_",contrast)]])
   }
