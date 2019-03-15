@@ -79,8 +79,10 @@ for( accession in microarrays ) {
       #as.data.table(topTable(fit, confint=TRUE, number=Inf, coef = datasets$coef[datasets$accession==accession]))->expTTable
       as.data.table(topTable(fit, confint=TRUE, number=Inf))->expTTable
     }
-    expTTable[,variance:=((CI.R-CI.L)/3.92)^2,]
     setkey(expTTable,designElements)
+    # keep only the highestMeanProbesPerGene
+    expTTable[designElements %in% highestMeanProbePerGene, ]->expTTable
+    expTTable[,variance:=((CI.R-CI.L)/3.92)^2,]
     expTTable$Accession<-accession
     expTTable$Contrast<-contrast
     expTTable$refSampleSize<-referenceSamplesSize
@@ -89,7 +91,7 @@ for( accession in microarrays ) {
     setnames(expTTable, "adj.P.Val", "padj")
     
     columns<-c('Accession', 'Contrast', 'Gene ID', 'Gene Name', 'logFC', 'variance', 'padj', 'refSampleSize', 'testSampleSize', 'technology', 'CI.L', 'CI.R')
-    results[[paste0(accession,"_",contrast)]]<-expTTable[annot, on=c(designElements="DesignElementAccession")][, columns, with=FALSE]
+    results[[paste0(accession,"_",contrast)]]<-annot[expTTable, on=c(DesignElementAccession="designElements")][, columns, with=FALSE]
     summary(results[[paste0(accession,"_",contrast)]])
   }
 }
