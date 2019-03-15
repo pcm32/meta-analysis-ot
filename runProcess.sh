@@ -21,3 +21,5 @@ while IFS='' read -r accession || [[ -n "$accession" ]]; do
 done < $working_directory/microarray.txt
 
 get_merged_logfc_variance.R -d $datasets -i $working_directory -o $working_directory
+
+runMetaAnalysis.R -r $working_directory/expression_tables.rds -n 2 --outdir $working_directory
