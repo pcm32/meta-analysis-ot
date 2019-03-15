@@ -34,12 +34,23 @@ and save the file (referred to as datasets file later on).
 
 # Run
 
+Make sure that the directory containing scripts is on the path, the execute:
+
 ```
 runProcess.sh <path-to-datasets-file> <path-to-output-directory>
 ```
 
 A number of intermediate files are generated, merged results are left in `merged_logfc_variance.tsv` in the output directory.
 This file will include, per (experiment, contrast, gene): logFC, variance, adj p-value and sample sizes (reference and test)
+
+The meta-analysis results are left in the files:
+```
+RandomEffectModel_MetaVolcano_meta-analysis_metavolcano_files
+RandomEffectModel_MetaVolcano_meta-analysis_metavolcano.html
+metafor_degs_meta-analysis_metavolcano_summarizing.tsv
+```
+The HTML files contains a plotly plot to be viewed on a browser. The TSV contains the information per gene, showing all previous column plus the ones computed by metafor: ndeg, ddeg, dircon, randomSummary, randomCi.lb, randomCi.ub, randomP, het_QE, het_QEp, het_QM, het_QMp, error
+
 
 A conda package and container will be available shortly. In the future this functionality will probably move to the 
 Expression Atlas bioconductor package.
